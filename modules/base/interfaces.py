@@ -1,21 +1,21 @@
-from abc import ABC, abstractmethod
+from abc import ABCMeta, abstractmethod
 
 
-class IDataLoader(ABC):
+class IDataLoader(metaclass=ABCMeta):
 
     @abstractmethod
     def load(self):
         raise NotImplementedError
 
 
-class ITransformer(ABC):
+class ITransformer(metaclass=ABCMeta):
 
     @abstractmethod
     def transform(self):
         raise NotImplementedError
 
 
-class IEstimator(ABC):
+class IEstimator(metaclass=ABCMeta):
 
     @abstractmethod
     def fit(self):

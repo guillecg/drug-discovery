@@ -4,7 +4,16 @@
 ## 0. Architecture
 
 - **Modular pipelines**
-	- **Data enrichment (see ideas)**
+	- **Data:**
+		- **Datasets:**
+			- [Tox21](http://bioinf.jku.at/research/DeepTox/tox21.html)
+
+	- **Data Enrichment:**
+		- Genomic/transcriptomic data
+		- Interactomic data
+		- Polypharmacology
+		- [KSPA](https://www.frontiersin.org/articles/10.3389/fenvs.2015.00080/full)
+		- Latent Dirichlet Allocation ([Predictive Toxicogenomics Space, PTGS](https://youtu.be/qH3z5GwccxE?t=1431))
 
 	- **Data preprocessing**
 		- SMILES: canonizing, cleaning, etc.
@@ -34,6 +43,7 @@
 		- Validation algorithm:
 			- Hold-out + CV on train
 			- Nested CV
+			- [Cluster-Nested CV](https://youtu.be/WjoI2ZBrV2k?t=589)
 
 	- **ML algorithms:**
 		- Scikit-learn (RF, SVM, Elastic Nets, Gradient boosting, etc.)
@@ -41,8 +51,12 @@
 		- PyTorch (LSTM, 1D-CNN, GNN, GANs, etc.)
 
 	- **Evaluation:**
-		- Metrics
+		- Metrics:
+			- [Cohen's kappa](https://en.wikipedia.org/wiki/Cohen%27s_kappa)
+			- [Standard vs Far AUC](https://youtu.be/m1kTpZ2Ly5g?t=464)
 		- Explainability:
+			- [Applicability domain](https://youtu.be/m1kTpZ2Ly5g?t=982)
+			- [Attribution score](https://youtu.be/m1kTpZ2Ly5g?t=738)
 			- Chemical space visualization
 			- Shapley
 			- ELI5
@@ -50,13 +64,6 @@
 
 
 ## 1. Ideas
-
-- **Data Enrichment:**
-	- Genomic/transcriptomic data
-	- Interactomic data
-	- Polypharmacology
-	- [KSPA](https://www.frontiersin.org/articles/10.3389/fenvs.2015.00080/full)
-	- Latent Dirichlet Allocation ([Predictive Toxicogenomics Space, PTGS](https://youtu.be/qH3z5GwccxE?t=1431))
 
 - **Active Learning for increasing labelled samples**
 
@@ -93,7 +100,3 @@
 		- Minmax
 		- Various 2D, 3D and pharmacophore kernels
 		- In-house toxicophore and scaffold features
-
-- **Resources:**
-	- **Datasets:**
-		- [Tox21](http://bioinf.jku.at/research/DeepTox/tox21.html)
