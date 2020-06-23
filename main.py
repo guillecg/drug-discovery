@@ -1,4 +1,4 @@
-from modules.data.data_loader import DataLoaderCSV
+from modules.data.data_loaders import DataLoaderSDF
 
 from modules.preprocessing.pipelines import Pipeline
 from modules.preprocessing.smiles import (
@@ -8,9 +8,11 @@ from modules.preprocessing.smiles import (
 )
 
 
-
 if __name__ == '__main__':
     # 1. Load data (class DataLoader)
+    data_loader = DataLoaderSDF()
+    data = data_loader.load(path='data/Tox21/tox21_10k_data_all.sdf')
+
     # 1.1. Data enrichment (class DataEnricher)
 
     # 2. Preprocess data (class Pipeline)
