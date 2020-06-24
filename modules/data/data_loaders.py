@@ -1,9 +1,30 @@
+import os
+
 import pandas as pd
 
 from rdkit import Chem
 from rdkit.Chem import PandasTools
 
 from modules.base.interfaces import IDataLoader
+
+
+class DataLoaderManager(IDataLoader):
+
+    def __init__(self):
+        self.data_loaders = {
+            '.csv': DataLoaderCSV,
+            '.xls': DataLoaderExcel,
+            '.xlsx': DataLoaderExcel,
+            '.smi': DataLoaderSMILES,
+            '.sdf': DataLoaderSDF,
+        }
+
+    def load(self, path: str, **kwargs) -> pd.DataFrame:
+        file_type = os.path.splitext(path)[-1]
+
+        data_loader = self.data_loaders[file_type]()
+
+        return data_loader.load(path=path, **kwargs)
 
 
 class DataLoaderCSV(IDataLoader):
@@ -30,26 +51,20 @@ class DataLoaderExcel(IDataLoader):
         return data
 
 
-class DataLoaderDB(IDataLoader):
-
-    def load(self, db, query: str) -> pd.DataFrame:
-        raise NotImplementedError
-
-
 class DataLoaderSMILES(IDataLoader):
 
     def load(self, path: str) -> pd.DataFrame:
-        return pd.DataFrame.from_dict({'SMILES': Chem.SmilesMolSupplier(path)})
+        return pd.DataFrame.from_dict(
+            {'Molecule': Chem.SmilesMolSupplier(path)}
+        )
 
 
 class DataLoaderSDF(IDataLoader):
 
-    def load(self, path: str, removeHs: bool = False) -> pd.DataFrame:
+    def load(self, path: str, **kwargs) -> pd.DataFrame:
         return PandasTools.LoadSDF(
             filename=path,
             smilesName='SMILES',
             molColName='Molecule',
-            includeFingerprints=True,
-            removeHs=removeHs,
-            strictParsing=True
+            **kwargs
         )

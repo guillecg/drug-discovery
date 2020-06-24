@@ -1,16 +1,15 @@
-from modules.data.data_loaders import DataLoaderSDF
+from modules.data.data_loaders import DataLoaderManager
 
 from modules.preprocessing.pipelines import Pipeline
 from modules.preprocessing.smiles import (
-    SMILESHotEncoder,
     SMILESChecker,
     SMILESEmbedder
 )
 
 
 if __name__ == '__main__':
-    # 1. Load data (class DataLoader)
-    data_loader = DataLoaderSDF()
+    # 1. Load data (class DataLoaderManager)
+    data_loader = DataLoaderManager()
     data = data_loader.load(path='data/Tox21/tox21_10k_data_all.sdf')
 
     # 1.1. Data enrichment (class DataEnricher)
