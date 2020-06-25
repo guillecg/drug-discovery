@@ -19,44 +19,43 @@ class DataLoaderManager(IDataLoader):
             '.sdf': DataLoaderSDF,
         }
 
-    def load(self, path: str, **kwargs) -> pd.DataFrame:
+    def load(self, path: str, filters: dict = None, **kwargs) -> pd.DataFrame:
+        # Extract file type from data path
         file_type = os.path.splitext(path)[-1]
 
+        # Choose data loader according to file type
         data_loader = self.data_loaders[file_type]()
 
-        return data_loader.load(path=path, **kwargs)
+        # Load data
+        data = data_loader.load(path=path, **kwargs)
+
+        # Filter data if required
+        if filters:
+            for key, value in filters.items():
+                data = data[data[key].isin(list([value]))]
+
+        return data
 
 
 class DataLoaderCSV(IDataLoader):
 
-    def load(self, path: str, filters: dict = {}) -> pd.DataFrame:
-        data = pd.read_csv(filepath_or_buffer=path)
-
-        if filters:
-            for key, value in filters.items():
-                data = data[data[key].isin(list(value))]
-
-        return data
+    def load(self, path: str, **kwargs) -> pd.DataFrame:
+        return pd.read_csv(filepath_or_buffer=path, **kwargs)
 
 
 class DataLoaderExcel(IDataLoader):
 
-    def load(self, path: str, filters: dict = {}) -> pd.DataFrame:
-        data = pd.read_excel(io=path)
-
-        if filters:
-            for key, value in filters.items():
-                data = data[data[key].isin(list(value))]
-
-        return data
+    def load(self, path: str, **kwargs) -> pd.DataFrame:
+        return pd.read_excel(io=path, **kwargs)
 
 
 class DataLoaderSMILES(IDataLoader):
 
-    def load(self, path: str) -> pd.DataFrame:
-        return pd.DataFrame.from_dict(
-            {'Molecule': Chem.SmilesMolSupplier(path)}
-        )
+    def load(self, path: str, **kwargs) -> pd.DataFrame:
+        smiles = [Chem.MolToSmiles(mol) for mol in
+                  Chem.SmilesMolSupplier(path, **kwargs)]
+
+        return pd.DataFrame.from_dict({'SMILES': smiles})
 
 
 class DataLoaderSDF(IDataLoader):
