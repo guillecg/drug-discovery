@@ -1,21 +1,28 @@
+from sklearn.pipeline import Pipeline
+
 from modules.data.data_loaders import DataLoaderManager
 
-from modules.preprocessing.pipelines import Pipeline
-from modules.preprocessing.smiles import (
-    SMILESChecker,
-    SMILESEmbedder
-)
+from modules.preprocessing.smiles import SMILESChecker
 
 
 if __name__ == '__main__':
     # 1. Load data (class DataLoaderManager)
     data_loader = DataLoaderManager()
-    data = data_loader.load(path='data/Tox21/tox21_10k_data_all.sdf')
+    data = data_loader.load(
+        path='data/Tox21/tox21_10k_data_all.sdf',
+        removeHs=False
+    )
 
     # 1.1. Data enrichment (class DataEnricher)
 
     # 2. Preprocess data (class Pipeline)
     # 2.1. Check and sanitize data + EDA
+    preproc_pipe = Pipeline(steps=[
+        ('SMILESChecker', SMILESChecker())
+    ])
+
+    data['SMILES'] = preproc_pipe.transform(X=data['SMILES'].to_numpy())
+
     # 2.2. Feature engineering + EDA
     # 2.3. Feature selection + EDA
 
