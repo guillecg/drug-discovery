@@ -5,12 +5,12 @@ import pandas as pd
 from rdkit import Chem
 from rdkit.Chem import PandasTools
 
-from modules.base.interfaces import IDataLoader
+from modules.base import BaseDataLoader
 
 
-class DataLoaderManager(IDataLoader):
+class DataLoaderManager(BaseDataLoader):
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.data_loaders = {
             '.csv': DataLoaderCSV,
             '.xls': DataLoaderExcel,
@@ -37,28 +37,30 @@ class DataLoaderManager(IDataLoader):
         return data
 
 
-class DataLoaderCSV(IDataLoader):
+class DataLoaderCSV(BaseDataLoader):
 
     def load(self, path: str, **kwargs) -> pd.DataFrame:
         return pd.read_csv(filepath_or_buffer=path, **kwargs)
 
 
-class DataLoaderExcel(IDataLoader):
+class DataLoaderExcel(BaseDataLoader):
 
     def load(self, path: str, **kwargs) -> pd.DataFrame:
         return pd.read_excel(io=path, **kwargs)
 
 
-class DataLoaderSMILES(IDataLoader):
+class DataLoaderSMILES(BaseDataLoader):
 
     def load(self, path: str, **kwargs) -> pd.DataFrame:
-        smiles = [Chem.MolToSmiles(mol) for mol in
-                  Chem.SmilesMolSupplier(path, **kwargs)]
+        # Get SMILES instead of molecules since SMILES are going to be
+        # present in all the given data formats
+        smiles = Chem.SmilesMolSupplier(path, **kwargs)
+        smiles = list(map(Chem.MolToSmiles, smiles))
 
         return pd.DataFrame.from_dict({'SMILES': smiles})
 
 
-class DataLoaderSDF(IDataLoader):
+class DataLoaderSDF(BaseDataLoader):
 
     def load(self, path: str, **kwargs) -> pd.DataFrame:
         return PandasTools.LoadSDF(
