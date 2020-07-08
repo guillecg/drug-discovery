@@ -68,7 +68,7 @@ def test_data_loaders_individually(data_loader_manager):
     ]
 )
 def test_data_loader_kwargs(data_loader_manager, cls, kwargs):
-    """This test fails if the kwargs are not properly passed"""
+    """This test fails if the kwargs are not properly defined"""
     for data_type, data_loader in data_loader_manager.data_loaders.items():
         if cls == data_loader:
             paths = get_test_data_paths(
