@@ -1,9 +1,16 @@
 import pytest
 
+from typing import List
+
+import pandas as pd
+
 from rdkit import Chem
 
 from modules.data.data_loaders import DataLoaderManager
-from modules.preprocessing.descriptors import *
+from modules.preprocessing.descriptors import (
+    DescriptorMordred,
+    DescriptorPipeline
+)
 
 
 # TODO: DescriptorMordred with custom descriptors

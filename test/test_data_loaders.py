@@ -1,6 +1,14 @@
 import pytest
 
-from modules.data.data_loaders import *
+from modules.base import BaseDataLoader
+
+from modules.data.data_loaders import (
+    DataLoaderManager,
+    DataLoaderCSV,
+    DataLoaderExcel,
+    DataLoaderSMILES,
+    DataLoaderSDF
+)
 
 
 @pytest.mark.slow
