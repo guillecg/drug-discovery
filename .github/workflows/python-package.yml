@@ -13,9 +13,10 @@ jobs:
   build:
     name: Flake and pytest
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
+        os: [windows-latest]
         python-version: [3.7]
 
     steps:
