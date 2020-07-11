@@ -17,21 +17,3 @@ class SMILESChecker(BaseEstimator, TransformerMixin):
         X = map(Chem.MolToSmiles, X)
 
         return np.array(list(X))
-
-
-class SMILESHotEncoder(BaseEstimator, TransformerMixin):
-
-    def fit(self, X: np.array, y: np.array = None) -> SMILESHotEncoder:
-        return self
-
-    def transform(self, X: np.array) -> np.array:
-        raise NotImplementedError
-
-
-class SMILESEmbedder(BaseEstimator, TransformerMixin):
-
-    def fit(self, X: np.array, y: np.array = None) -> SMILESEmbedder:
-        return self
-
-    def transform(self, X: np.array) -> np.array:
-        raise NotImplementedError
