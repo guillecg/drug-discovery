@@ -10,23 +10,28 @@ from modules.data.data_loaders import DataLoaderManager
 from modules.utils import load_yaml, get_test_data_paths
 
 
-CONFIG_PATH = 'config.yaml'
-
-
 @pytest.fixture(scope='session')
 def data_loader_manager() -> DataLoaderManager:
     return DataLoaderManager()
 
 
 @pytest.fixture(scope='session')
-def data_paths_dict(data_loader_manager: DataLoaderManager) -> dict:
+def config_path() -> str:
+    return 'config.yml'
+
+
+@pytest.fixture(scope='session')
+def data_paths_dict(
+        data_loader_manager: DataLoaderManager,
+        config_path: str
+) -> dict:
     """Fixture containing the directory path in which test data files are."""
 
     # IMPORTANT NOTE: all test files contain, by default,
     # the 10 first records in 'data/Tox21/tox21_10k_data_all.sdf'
 
     # Get test data directory from test config
-    config = load_yaml(path=CONFIG_PATH)
+    config = load_yaml(path=config_path)
     test_data_dir = config.get('TEST_DATA_DIR')
 
     paths_dict = defaultdict(list)
