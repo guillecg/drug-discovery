@@ -4,21 +4,9 @@ from rdkit import Chem
 
 from modules.data.data_loaders import DataLoaderManager
 from modules.preprocessing.descriptors import *
-from modules.utils import load_yaml, get_test_data_paths
-
-
-# IMPORTANT NOTE: all test files contain, by default, the 10 first records in
-# 'data/Tox21/tox21_10k_data_all.sdf'
-CONFIG = load_yaml(path='config.yaml')
-TEST_DATA_DIR = CONFIG.get('TEST_DATA_DIR')
 
 
 # TODO: DescriptorMordred with custom descriptors
-
-
-@pytest.fixture(scope='module')
-def data_loader_manager():
-    return DataLoaderManager()
 
 
 @pytest.mark.parametrize(
@@ -27,8 +15,8 @@ def data_loader_manager():
         pytest.param(DescriptorMordred, {'NaN': 0}, marks=pytest.mark.xfail),
     ]
 )
-def test_data_loader_kwargs(cls, kwargs):
-    """This test fails if the kwargs are not properly defined"""
+def test_data_loader_kwargs(cls, kwargs: dict) -> None:
+    """This test fails if the kwargs are not properly defined."""
     assert cls(**kwargs)
 
 
@@ -38,15 +26,24 @@ def test_data_loader_kwargs(cls, kwargs):
         DescriptorMordred
     ]
 )
-def test_calculation_individually(data_loader_manager, calculator):
-    for data_type in data_loader_manager.data_loaders.keys():
-        paths = get_test_data_paths(
-            data_dir=TEST_DATA_DIR,
-            data_type=data_type
-        )
+def test_calculation_individually(
+        data_loader_manager: DataLoaderManager,
+        data_paths_dict: dict,
+        calculator
+) -> None:
+    """This test fails if:
+        - Calculated descriptors are not a Pandas.DataFrame
+        - Calculated descriptors length does not match data length
+    """
 
+    # For each supported data format in DataLoaderManager
+    for data_format, data_loader in data_loader_manager.data_loaders.items():
+        # Retrieve paths from fixture
+        paths = data_paths_dict[data_format]
+
+        # For each file for the supported data format
         for path in paths:
-            # Load data
+            # Load data using DataLoaderManager
             data = data_loader_manager.load(path=path)
 
             # Generate molecules from SMILES, since not all formats have them
@@ -58,7 +55,7 @@ def test_calculation_individually(data_loader_manager, calculator):
             desc = desc_calculator.fit_transform(X=data['Molecule'].to_numpy())
 
             assert isinstance(desc, pd.DataFrame)
-            assert len(desc) == 10
+            assert len(desc) == len(data)
 
 
 @pytest.mark.slowest
@@ -68,13 +65,23 @@ def test_calculation_individually(data_loader_manager, calculator):
         [('Mordred', DescriptorMordred()), ('Mordred', DescriptorMordred())]
     ]
 )
-def test_calculation_with_pipeline(data_loader_manager, steps):
-    for data_type in data_loader_manager.data_loaders.keys():
-        paths = get_test_data_paths(
-            data_dir=TEST_DATA_DIR,
-            data_type=data_type
-        )
+def test_calculation_with_pipeline(
+        data_loader_manager: DataLoaderManager,
+        data_paths_dict: dict,
+        steps: List[tuple]
+) -> None:
+    """This test fails if:
+        - Calculated descriptors are not a Pandas.DataFrame
+        - Calculated descriptors length does not match 10 (data test length)
+        - Number of resulting columns is NOT higher than in original data
+    """
 
+    # For each supported data format in DataLoaderManager
+    for data_format, data_loader in data_loader_manager.data_loaders.items():
+        # Retrieve paths from fixture
+        paths = data_paths_dict[data_format]
+
+        # For each file for the supported data format
         for path in paths:
             # Load data and save original columns for later assessment
             data = data_loader_manager.load(path=path)

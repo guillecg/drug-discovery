@@ -1,18 +1,6 @@
 import pytest
 
 from modules.data.data_loaders import *
-from modules.utils import load_yaml, get_test_data_paths
-
-
-# IMPORTANT NOTE: all test files contain, by default, the 10 first records in
-# 'data/Tox21/tox21_10k_data_all.sdf'
-CONFIG = load_yaml(path='config.yaml')
-TEST_DATA_DIR = CONFIG.get('TEST_DATA_DIR')
-
-
-@pytest.fixture(scope='module')
-def data_loader_manager():
-    return DataLoaderManager()
 
 
 @pytest.mark.slow
@@ -24,14 +12,20 @@ def data_loader_manager():
         pytest.param({'Non-existent column': ''}, 0, marks=pytest.mark.xfail)
     ]
 )
-def test_data_loader_manager(data_loader_manager, filters, expected_len):
-    """This test fails if the filters do not work"""
-    for data_type in data_loader_manager.data_loaders.keys():
-        paths = get_test_data_paths(
-            data_dir=TEST_DATA_DIR,
-            data_type=data_type
-        )
+def test_data_loader_manager_filters(
+        data_loader_manager: DataLoaderManager,
+        data_paths_dict: dict,
+        filters: dict,
+        expected_len: int
+) -> None:
+    """This test fails if the filters in DataLoaderManager.load do not work."""
 
+    # For each supported data format in DataLoaderManager
+    for data_format, data_loader in data_loader_manager.data_loaders.items():
+        # Retrieve paths from fixture
+        paths = data_paths_dict[data_format]
+
+        # For each file for the supported data format
         for path in paths:
             actual_len = len(
                 data_loader_manager.load(path=path, filters=filters)
@@ -40,14 +34,20 @@ def test_data_loader_manager(data_loader_manager, filters, expected_len):
 
 
 @pytest.mark.slow
-def test_data_loaders_individually(data_loader_manager):
-    """This test fails if there are not exactly 10 records"""
-    for data_type, data_loader in data_loader_manager.data_loaders.items():
-        paths = get_test_data_paths(
-            data_dir=TEST_DATA_DIR,
-            data_type=data_type
-        )
+def test_data_loaders_individually(
+        data_loader_manager: DataLoaderManager,
+        data_paths_dict: dict
+) -> None:
+    """This test fails if there are not exactly 10 records for each data
+    format using DataLoaderManager.
+    """
 
+    # For each supported data format in DataLoaderManager
+    for data_format, data_loader in data_loader_manager.data_loaders.items():
+        # Retrieve paths from fixture
+        paths = data_paths_dict[data_format]
+
+        # For each file for the supported data format
         for path in paths:
             assert len(data_loader().load(path=path)) == 10
 
@@ -67,14 +67,21 @@ def test_data_loaders_individually(data_loader_manager):
         # pytest.param(DataLoaderExcel, {'NaN': True}, marks=pytest.mark.xfail)
     ]
 )
-def test_data_loader_kwargs(data_loader_manager, cls, kwargs):
-    """This test fails if the kwargs are not properly defined"""
-    for data_type, data_loader in data_loader_manager.data_loaders.items():
-        if cls == data_loader:
-            paths = get_test_data_paths(
-                data_dir=TEST_DATA_DIR,
-                data_type=data_type
-            )
+def test_data_loader_kwargs(
+        data_loader_manager: DataLoaderManager,
+        data_paths_dict: dict,
+        cls: BaseDataLoader,
+        kwargs: dict
+) -> None:
+    """This test fails if the kwargs are not properly defined."""
 
+    # For each supported data format in DataLoaderManager
+    for data_format, data_loader in data_loader_manager.data_loaders.items():
+        # If parametrized class is equal to the corresponding data loader
+        if cls == data_loader:
+            # Retrieve paths from fixture
+            paths = data_paths_dict[data_format]
+
+            # For each file for the supported data format
             for path in paths:
                 assert len(data_loader().load(path=path, **kwargs)) == 10
