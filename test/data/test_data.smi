@@ -1,0 +1,11 @@
+SMILES Name 
+C[n+]1c2cc(N)ccc2cc2ccc(N)cc21.Nc1ccc2cc3ccc(N)cc3nc2c1.[Cl-] NCGC00178831-03
+O=C([O-])c1ccccc1-c1c2cc(Br)c(=O)c(Br)c-2oc2c(Br)c([O-])c(Br)cc12.[Na+].[Na+] NCGC00166114-03
+CO[C@H]1CC(O[C@H]2C[C@H]([C@H]3O[C@](C)(O)[C@H](C)C[C@@H]3C)O[C@H]2[C@]2(C)CC[C@H]([C@]3(C)CC[C@]4(C[C@H](O)[C@@H](C)[C@@H]([C@@H](C)[C@@H]5O[C@](O)(CC(=O)[O-])[C@@H](C)[C@H](OC)[C@H]5OC)O4)O3)O2)O[C@@H](C)[C@@H]1OC.[NH4+] NCGC00263563-01
+CN(C)c1ccc(C(=C2C=CC(=[N+](C)C)C=C2)c2ccccc2)cc1.CN(C)c1ccc(C(=C2C=CC(=[N+](C)C)C=C2)c2ccccc2)cc1.O=C(O)C(=O)O.O=C([O-])C(=O)O.O=C([O-])C(=O)O NCGC00013058-02
+CC(=O)O.CCNC(=O)[C@@H]1CCCN1C(=O)[C@H](CCCNC(=N)N)NC(=O)[C@H](CC(C)C)NC(=O)[C@@H](Cc1c[nH]c2ccccc12)NC(=O)[C@H](Cc1ccc(O)cc1)NC(=O)[C@H](CO)NC(=O)[C@H](Cc1c[nH]c2ccccc12)NC(=O)[C@H](Cc1c[nH]cn1)NC(=O)[C@@H]1CCC(=O)N1 NCGC00167516-01
+CCCCCCCCNC(C)C(O)c1ccc(SC(C)C)cc1 NCGC00018301-05
+Cc1ccc([N+](=O)[O-])c2c1O[Hg]2 NCGC00249897-01
+CCN(CC)C(=S)SSC(=S)N(CC)CC NCGC00016000-18
+CCCCCCOc1ccc(C(=N)N(CCCC)CCCC)c2ccccc12.Cl NCGC00181091-01
+COCC(=O)O[C@]1(CCN(C)CCCc2nc3ccccc3[nH]2)CCc2cc(F)ccc2[C@@H]1C(C)C.Cl.Cl NCGC00094089-01
