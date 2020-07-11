@@ -4,7 +4,7 @@ from modules.data.data_loaders import DataLoaderManager
 from modules.utils import load_yaml, get_test_data_paths
 
 
-@pytest.mark.parametrize('path', ['config.yml'])
+@pytest.mark.parametrize('path', ['test/config.yml'])
 def test_load_yaml(path: str) -> None:
     """This test fails if the loaded file is not a dict."""
 

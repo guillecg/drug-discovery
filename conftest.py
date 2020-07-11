@@ -17,7 +17,7 @@ def data_loader_manager() -> DataLoaderManager:
 
 @pytest.fixture(scope='session')
 def config_path() -> str:
-    return 'config.yml'
+    return 'test/config.yml'
 
 
 @pytest.fixture(scope='session')
