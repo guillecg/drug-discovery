@@ -1,3 +1,4 @@
+name: test-env
 channels:
   - mordred-descriptor
   - conda-forge
