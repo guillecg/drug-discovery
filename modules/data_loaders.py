@@ -29,38 +29,37 @@ class DataLoaderManager(BaseDataLoader):
     --------
     >>> from modules.data_loaders import DataLoaderManager
     >>> data_loader = DataLoaderManager()
-    >>> data = data_loader.load(path='data/Tox21/tox21_10k_data_all.sdf')
+    >>> data = data_loader.load(path='test/data/test_data.sdf')
     >>> data
-                 Formula  ... NR-AR-LBD
-    0         C27H25ClN6  ...       NaN
-    1      C20H6Br4Na2O5  ...       NaN
-    2         C47H83NO17  ...       NaN
-    3        C52H54N4O12  ...       NaN
-    4       C66H87N17O14  ...       NaN
-                  ...  ...       ...
-    11759      C7H10N2OS  ...         0
-    11760        C3H6N2S  ...         0
-    11761        C3H6N2S  ...         0
-    11762    C10H14NO5PS  ...         0
-    11763     C15H26O6S3  ...         0
-
-    [11758 rows x 18 columns]
-
+              Formula  ...                                           Molecule
+    0      C27H25ClN6  ...  <img data-content="rdkit/molecule" src="data:i...
+    1   C20H6Br4Na2O5  ...  <img data-content="rdkit/molecule" src="data:i...
+    2      C47H83NO17  ...  <img data-content="rdkit/molecule" src="data:i...
+    3     C52H54N4O12  ...  <img data-content="rdkit/molecule" src="data:i...
+    4    C66H87N17O14  ...  <img data-content="rdkit/molecule" src="data:i...
+    5       C20H35NOS  ...  <img data-content="rdkit/molecule" src="data:i...
+    6       C7H5HgNO3  ...  <img data-content="rdkit/molecule" src="data:i...
+    7      C10H20N2S4  ...  <img data-content="rdkit/molecule" src="data:i...
+    8     C25H39ClN2O  ...  <img data-content="rdkit/molecule" src="data:i...
+    9  C29H40Cl2FN3O3  ...  <img data-content="rdkit/molecule" src="data:i...
+    [10 rows x 18 columns]
     >>> data = data_loader.load(
-        path='data/Tox21/tox21_10k_data_all.sdf',
-        filters={'SMILES': 'COc1cc(C)ccc1O'}
-    )
+    ...    path='test/data/test_data.sdf',
+    ...    filters={'SMILES': 'CCN(CC)C(=S)SSC(=S)N(CC)CC'}
+    ... )
     >>> data['SMILES']
-    7814    COc1cc(C)ccc1O
+    7    CCN(CC)C(=S)SSC(=S)N(CC)CC
     Name: SMILES, dtype: object
-
     >>> data = data_loader.load(
-        path='data/Tox21/tox21_10k_data_all.sdf',
-        filters={'SMILES': ['COc1cc(C)ccc1O', 'ClC(Cl)=C(Cl)Cl']}
-    )
-    >>> data
-    7170    ClC(Cl)=C(Cl)Cl
-    7814     COc1cc(C)ccc1O
+    ...    path='test/data/test_data.sdf',
+    ...    filters={'SMILES': [
+    ...        'CCN(CC)C(=S)SSC(=S)N(CC)CC',
+    ...        'CCCCCCCCNC(C)C(O)c1ccc(SC(C)C)cc1'
+    ...    ]}
+    ... )
+    >>> data['SMILES']
+    5    CCCCCCCCNC(C)C(O)c1ccc(SC(C)C)cc1
+    7           CCN(CC)C(=S)SSC(=S)N(CC)CC
     Name: SMILES, dtype: object
     """
 
