@@ -18,9 +18,9 @@ def test_get_test_data_paths(
         config_path: str
 ) -> None:
     """This test fails if:
-        - The returned paths are not a list
-        - No test file with the required format is found
+        - Returned paths are not a list
         - Any element of the list is not a string
+        - No test file with the required format is found
     """
 
     # Get test data directory from test config
@@ -34,5 +34,5 @@ def test_get_test_data_paths(
         )
 
         assert isinstance(paths, list)
-        assert len(paths)
         assert all([isinstance(path, str) for path in paths])
+        assert len(paths)
