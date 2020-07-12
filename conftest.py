@@ -6,7 +6,7 @@ from typing import List
 
 import pandas as pd
 
-from modules.data.data_loaders import DataLoaderManager
+from modules.data_loaders import DataLoaderManager
 from modules.utils import load_yaml, get_test_data_paths
 
 
@@ -25,7 +25,9 @@ def data_paths_dict(
         data_loader_manager: DataLoaderManager,
         config_path: str
 ) -> dict:
-    """Fixture containing the directory path in which test data files are."""
+    """Fixture containing all the test data file paths for their corresponding
+    formats.
+    """
 
     # IMPORTANT NOTE: all test files contain, by default,
     # the 10 first records in 'data/Tox21/tox21_10k_data_all.sdf'

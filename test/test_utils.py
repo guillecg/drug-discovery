@@ -1,6 +1,6 @@
 import pytest
 
-from modules.data.data_loaders import DataLoaderManager
+from modules.data_loaders import DataLoaderManager
 from modules.utils import load_yaml, get_test_data_paths
 
 

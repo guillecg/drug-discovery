@@ -1,7 +1,7 @@
 from rdkit import Chem
 from rdkit.Chem import PandasTools
 
-from modules.data.data_loaders import DataLoaderManager
+from modules.data_loaders import DataLoaderManager
 
 
 def create_test_data(path: str, n_rows: int = 10) -> None:

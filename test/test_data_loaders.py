@@ -2,7 +2,7 @@ import pytest
 
 from modules.base import BaseDataLoader
 
-from modules.data.data_loaders import (
+from modules.data_loaders import (
     DataLoaderManager,
     DataLoaderCSV,
     DataLoaderExcel,
@@ -17,6 +17,11 @@ from modules.data.data_loaders import (
         ({}, 10),
         ({'SMILES': ''}, 0),
         ({'SMILES': 'CCN(CC)C(=S)SSC(=S)N(CC)CC'}, 1),
+        ({'SMILES': [
+            'CCN(CC)C(=S)SSC(=S)N(CC)CC',
+            'CCCCCCCCNC(C)C(O)c1ccc(SC(C)C)cc1'
+        ]}, 2),
+        ({'SMILES': ['', 39]}, 0),
         pytest.param({'Non-existent column': ''}, 0, marks=pytest.mark.xfail)
     ]
 )
