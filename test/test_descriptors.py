@@ -35,7 +35,7 @@ def test_data_loader_kwargs(cls, kwargs: dict) -> None:
 )
 def test_calculation_individually(
         data_loader_manager: DataLoaderManager,
-        data_paths_dict: dict,
+        data_list: List[pd.DataFrame],
         calculator
 ) -> None:
     """This test fails if:
@@ -43,26 +43,17 @@ def test_calculation_individually(
         - Calculated descriptors length does not match data length
     """
 
-    # For each supported data format in DataLoaderManager
-    for data_format, data_loader in data_loader_manager.data_loaders.items():
-        # Retrieve paths from fixture
-        paths = data_paths_dict[data_format]
+    for data in data_list:
+        # Generate molecules from SMILES, since not all formats have them
+        data['Molecule'] = [Chem.MolFromSmiles(smiles)
+                            for smiles in data['SMILES']]
 
-        # For each file for the supported data format
-        for path in paths:
-            # Load data using DataLoaderManager
-            data = data_loader_manager.load(path=path)
+        # Create pipeline and calculate descriptors
+        desc_calculator = calculator()
+        desc = desc_calculator.fit_transform(X=data['Molecule'].to_numpy())
 
-            # Generate molecules from SMILES, since not all formats have them
-            data['Molecule'] = [Chem.MolFromSmiles(smiles)
-                                for smiles in data['SMILES']]
-
-            # Create pipeline and calculate descriptors
-            desc_calculator = calculator()
-            desc = desc_calculator.fit_transform(X=data['Molecule'].to_numpy())
-
-            assert isinstance(desc, pd.DataFrame)
-            assert len(desc) == len(data)
+        assert isinstance(desc, pd.DataFrame)
+        assert len(desc) == len(data)
 
 
 @pytest.mark.slowest
@@ -74,7 +65,7 @@ def test_calculation_individually(
 )
 def test_calculation_with_pipeline(
         data_loader_manager: DataLoaderManager,
-        data_paths_dict: dict,
+        data_list: List[pd.DataFrame],
         steps: List[tuple]
 ) -> None:
     """This test fails if:
@@ -83,27 +74,19 @@ def test_calculation_with_pipeline(
         - Number of resulting columns is NOT higher than in original data
     """
 
-    # For each supported data format in DataLoaderManager
-    for data_format, data_loader in data_loader_manager.data_loaders.items():
-        # Retrieve paths from fixture
-        paths = data_paths_dict[data_format]
+    for data in data_list:
+        original_columns = data.columns.copy()
 
-        # For each file for the supported data format
-        for path in paths:
-            # Load data and save original columns for later assessment
-            data = data_loader_manager.load(path=path)
-            original_columns = data.columns.copy()
+        # Generate molecules from SMILES, since not all formats have them
+        data['Molecule'] = [Chem.MolFromSmiles(smiles)
+                            for smiles in data['SMILES']]
 
-            # Generate molecules from SMILES, since not all formats have them
-            data['Molecule'] = [Chem.MolFromSmiles(smiles)
-                                for smiles in data['SMILES']]
+        # Create pipeline and calculate descriptors
+        desc_pipe = DescriptorPipeline(mol_column='Molecule', steps=steps)
+        data = desc_pipe.fit_transform(X=data)
 
-            # Create pipeline and calculate descriptors
-            desc_pipe = DescriptorPipeline(mol_column='Molecule', steps=steps)
-            data = desc_pipe.fit_transform(X=data)
+        assert isinstance(data, pd.DataFrame)
+        assert len(data) == 10
 
-            assert isinstance(data, pd.DataFrame)
-            assert len(data) == 10
-
-            # Assumption: more columns implies that descriptors were calculated
-            assert len(data.columns) > len(original_columns)
+        # Assumption: more columns implies that descriptors were calculated
+        assert len(data.columns) > len(original_columns)

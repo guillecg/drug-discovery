@@ -58,10 +58,12 @@ def data_list(
 
     data_list = []
 
-    # For each file in the test data folder
-    for path in data_paths_dict.values():
-        # Load data and append to list
-        data = data_loader_manager.load(path=path)
-        data_list.append(data)
+    # For each supported format in DataLoaderManager
+    for paths in data_paths_dict.values():
+        # For each file with the supported format in the test data folder
+        for path in paths:
+            # Load data and append to list
+            data = data_loader_manager.load(path=path)
+            data_list.append(data)
 
     return data_list
