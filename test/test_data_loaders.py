@@ -22,6 +22,7 @@ from modules.data_loaders import (
             'CCCCCCCCNC(C)C(O)c1ccc(SC(C)C)cc1'
         ]}, 2),
         ({'SMILES': ['', 39]}, 0),
+        ({'SMILES': 'CCN(CC)C(=S)SSC(=S)N(CC)CC', 'Formula': 'C10H20N2S4'}, 1),
         pytest.param({'Non-existent column': ''}, 0, marks=pytest.mark.xfail)
     ]
 )
@@ -35,6 +36,11 @@ def test_data_loader_manager_filters(
 
     # For each supported data format in DataLoaderManager
     for data_format, data_loader in data_loader_manager.data_loaders.items():
+        # Avoid multiple filtering (SMILES and Formula) in SMILES file, since
+        # the only column present is SMILES
+        if data_format == '.smi' and 'Formula' in filters.keys():
+            continue
+
         # Retrieve paths from fixture
         paths = data_paths_dict[data_format]
 
