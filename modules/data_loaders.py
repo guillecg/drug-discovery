@@ -30,31 +30,31 @@ class DataLoaderManager(BaseDataLoader):
     >>> from modules.data_loaders import DataLoaderManager
     >>> data_loader = DataLoaderManager()
     >>> data = data_loader.load(path='test/data/test_data.sdf')
-    >>> data[['Formula', 'SMILES']]
-              Formula                                             SMILES
-    0      C27H25ClN6  C[n+]1c2cc(N)ccc2cc2ccc(N)cc21.Nc1ccc2cc3ccc(N...
-    1   C20H6Br4Na2O5  O=C([O-])c1ccccc1-c1c2cc(Br)c(=O)c(Br)c-2oc2c(...
-    2      C47H83NO17  CO[C@H]1CC(O[C@H]2C[C@H]([C@H]3O[C@](C)(O)[C@H...
-    3     C52H54N4O12  CN(C)c1ccc(C(=C2C=CC(=[N+](C)C)C=C2)c2ccccc2)c...
-    4    C66H87N17O14  CC(=O)O.CCNC(=O)[C@@H]1CCCN1C(=O)[C@H](CCCNC(=...
-    5       C20H35NOS                  CCCCCCCCNC(C)C(O)c1ccc(SC(C)C)cc1
-    6       C7H5HgNO3                     Cc1ccc([N+](=O)[O-])c2c1O[Hg]2
-    7      C10H20N2S4                         CCN(CC)C(=S)SSC(=S)N(CC)CC
-    8     C25H39ClN2O         CCCCCCOc1ccc(C(=N)N(CCCC)CCCC)c2ccccc12.Cl
-    9  C29H40Cl2FN3O3  COCC(=O)O[C@]1(CCN(C)CCCc2nc3ccccc3[nH]2)CCc2c...
+    >>> data[['ID', 'SMILES']]
+                    ID                                             SMILES
+    0  NCGC00178831-03  C[n+]1c2cc(N)ccc2cc2ccc(N)cc21.Nc1ccc2cc3ccc(N...
+    1  NCGC00166114-03  O=C([O-])c1ccccc1-c1c2cc(Br)c(=O)c(Br)c-2oc2c(...
+    2  NCGC00263563-01  CO[C@H]1CC(O[C@H]2C[C@H]([C@H]3O[C@](C)(O)[C@H...
+    3  NCGC00013058-02  CN(C)c1ccc(C(=C2C=CC(=[N+](C)C)C=C2)c2ccccc2)c...
+    4  NCGC00167516-01  CC(=O)O.CCNC(=O)[C@@H]1CCCN1C(=O)[C@H](CCCNC(=...
+    5  NCGC00018301-05                  CCCCCCCCNC(C)C(O)c1ccc(SC(C)C)cc1
+    6  NCGC00249897-01                     Cc1ccc([N+](=O)[O-])c2c1O[Hg]2
+    7  NCGC00016000-18                         CCN(CC)C(=S)SSC(=S)N(CC)CC
+    8  NCGC00181091-01         CCCCCCOc1ccc(C(=N)N(CCCC)CCCC)c2ccccc12.Cl
+    9  NCGC00094089-01  COCC(=O)O[C@]1(CCN(C)CCCc2nc3ccccc3[nH]2)CCc2c...
     >>> data = data_loader.load(
-    ...    path='test/data/test_data.sdf',
-    ...    filters={'SMILES': 'CCN(CC)C(=S)SSC(=S)N(CC)CC'}
+    ...     path='test/data/test_data.sdf',
+    ...     filters={'SMILES': 'CCN(CC)C(=S)SSC(=S)N(CC)CC'}
     ... )
     >>> data['SMILES']
     7    CCN(CC)C(=S)SSC(=S)N(CC)CC
     Name: SMILES, dtype: object
     >>> data = data_loader.load(
-    ...    path='test/data/test_data.sdf',
-    ...    filters={'SMILES': [
-    ...        'CCN(CC)C(=S)SSC(=S)N(CC)CC',
-    ...        'CCCCCCCCNC(C)C(O)c1ccc(SC(C)C)cc1'
-    ...    ]}
+    ...     path='test/data/test_data.sdf',
+    ...     filters={'SMILES': [
+    ...         'CCN(CC)C(=S)SSC(=S)N(CC)CC',
+    ...         'CCCCCCCCNC(C)C(O)c1ccc(SC(C)C)cc1'
+    ...     ]}
     ... )
     >>> data['SMILES']
     5    CCCCCCCCNC(C)C(O)c1ccc(SC(C)C)cc1
@@ -91,10 +91,9 @@ class DataLoaderManager(BaseDataLoader):
 
         Returns
         -------
-        data : Pandas.DataFrame
+        data : pandas.DataFrame
             The contents of the data file.
         """
-
         # Extract file type from data path
         file_type = os.path.splitext(path)[-1]
 
@@ -132,10 +131,9 @@ class DataLoaderCSV(BaseDataLoader):
 
         Returns
         -------
-        data : Pandas.DataFrame
+        data : pandas.DataFrame
             The contents of the data file.
         """
-
         return pd.read_csv(filepath_or_buffer=path, **kwargs)
 
 
@@ -155,10 +153,9 @@ class DataLoaderExcel(BaseDataLoader):
 
         Returns
         -------
-        data : Pandas.DataFrame
+        data : pandas.DataFrame
             The contents of the data file.
         """
-
         return pd.read_excel(io=path, **kwargs)
 
 
@@ -178,10 +175,9 @@ class DataLoaderSMILES(BaseDataLoader):
 
         Returns
         -------
-        data : Pandas.DataFrame
+        data : pandas.DataFrame
             The contents of the data file.
         """
-
         # Get SMILES instead of molecules since SMILES are going to be
         # present in all the given data formats
         smiles = Chem.SmilesMolSupplier(path, **kwargs)
@@ -206,10 +202,9 @@ class DataLoaderSDF(BaseDataLoader):
 
         Returns
         -------
-        data : Pandas.DataFrame
+        data : pandas.DataFrame
             The contents of the data file.
         """
-
         return PandasTools.LoadSDF(
             filename=path,
             smilesName='SMILES',

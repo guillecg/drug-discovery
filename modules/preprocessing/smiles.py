@@ -8,12 +8,38 @@ from rdkit import Chem
 
 
 class SMILESChecker(BaseEstimator, TransformerMixin):
+    """Simple RDKit-based SMILES checker.
 
-    def fit(self, X: np.array, y: np.array = None) -> SMILESChecker:
+    As documented in the RDKit documentation, [1] the :param:`canonical`
+    parameter in :func:`rdkit.Chem.rdmolfiles.MolToSmiles` function that
+    allows to obtain the canonical SMILES.
+
+    References
+    ----------
+    .. [1] RDKit. https://www.rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html
+    """
+
+    def fit(self, X: np.ndarray, y: np.ndarray = None) -> SMILESChecker:
+        """Placeholder method to follow sklearn.base.TransformerMixin
+        architecture: this method is required by the :meth:`fit_transform`
+        method.
+        """
         return self
 
-    def transform(self, X: np.array, y: np.array = None) -> np.array:
+    def transform(self, X: np.ndarray) -> np.ndarray:
+        """Sanitize the given SMILES strings.
+
+        Parameters
+        ----------
+        X : numpy.ndarray
+            Array of SMILES strings to be sanitized.
+
+        Returns
+        -------
+        X : numpy.ndarray
+            Array of sanitized SMILES strings.
+        """
         X = map(Chem.MolFromSmiles, X)
-        X = map(Chem.MolToSmiles, X)
+        X = map(lambda smi: Chem.MolToSmiles(smi, canonical=True), X)
 
         return np.array(list(X))
