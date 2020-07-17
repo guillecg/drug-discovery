@@ -32,7 +32,7 @@ def create_test_data(path: str, n_rows: int = 10) -> None:
         header=True,
         index=False
     )
-    assert len(data_loader.load(path=path)) == 10
+    assert len(data_loader.load(path=path)) == n_rows
 
     # Excel (.xls)
     path = 'test/data/test_data.xls'
@@ -41,7 +41,7 @@ def create_test_data(path: str, n_rows: int = 10) -> None:
         header=True,
         index=False
     )
-    assert len(data_loader.load(path=path)) == 10
+    assert len(data_loader.load(path=path)) == n_rows
 
     # Excel (.xlsx)
     path = 'test/data/test_data.xlsx'
@@ -50,7 +50,7 @@ def create_test_data(path: str, n_rows: int = 10) -> None:
         header=True,
         index=False
     )
-    assert len(data_loader.load(path=path)) == 10
+    assert len(data_loader.load(path=path)) == n_rows
 
     # SMILES
     path = 'test/data/test_data.smi'
@@ -58,7 +58,7 @@ def create_test_data(path: str, n_rows: int = 10) -> None:
     for smi in data['Molecule']:
         w.write(smi)
     w.close()
-    assert len(data_loader.load(path=path)) == 10
+    assert len(data_loader.load(path=path)) == n_rows
 
     # SDF
     path = 'test/data/test_data.sdf'
@@ -68,7 +68,7 @@ def create_test_data(path: str, n_rows: int = 10) -> None:
         molColName='Molecule',
         properties=data.columns.tolist()
     )
-    assert len(data_loader.load(path=path)) == 10
+    assert len(data_loader.load(path=path)) == n_rows
 
 
 if __name__ == '__main__':
