@@ -1,102 +1,80 @@
+![Python package](https://github.com/guillecg/drug-discovery/workflows/Python%20package/badge.svg)
 
 # Machine Learning for Drug Discovery
 
-## 0. Architecture
+This repository aims to provide a modular architecture for rapidly build pipelines that allow the user to discover or repurpose drugs.
 
-- **Modular pipelines**
-	- **Data:**
-		- **Datasets:**
-			- [Tox21](http://bioinf.jku.at/research/DeepTox/tox21.html)
+## Table of contents
+* [Setup](#setup)
+* [Getting started](#getting-started)
+* [Roadmap](#roadmap)
 
-	- **Data Enrichment:**
-		- Genomic/transcriptomic data
-		- Interactomic data
-		- Polypharmacology
-		- [KSPA](https://www.frontiersin.org/articles/10.3389/fenvs.2015.00080/full)
-		- Latent Dirichlet Allocation ([Predictive Toxicogenomics Space, PTGS](https://youtu.be/qH3z5GwccxE?t=1431))
+## Setup
+All the dependencies are detailed in the [environment.yml](https://github.com/guillecg/drug-discovery/blob/master/environment.yml) file. To install them, create a new conda environment using that file:
+```
+$ conda env create --name dd --file environment.yml
+$ conda activate dd
+```
 
-	- **Data preprocessing**
-		- SMILES: canonizing, cleaning, etc.
-		- TODO: check other data sources/types
-		- Imbalanced classes
+## Getting started
+```
+import plotly.express as px
 
-	- **Feature engineering** (ideas from [here](http://www.bioinf.jku.at/research/DeepTox/))
-		- ECFP
-		- DFS
-		- 3D features based on MOPAC
-		- Quantum-mechanical descriptors
-		- Tanimoto
-		- Minmax
-		- Various 2D, 3D and pharmacophore kernels
-		- In-house toxicophore and scaffold features
-		- **Dimensionality reduction:**
-			- PCA
-			- FastICA
-			- Manifolds
+from modules.data_loaders import DataLoaderManager
+from modules.preprocessing.smiles import SMILESChecker
+from modules.preprocessing.descriptors import (
+    DescriptorPipeline,
+    DescriptorMordred
+)
 
-	- **Feature selection**:
-		- Variance Inflation Factor (VIF)
-		- F2 (Scikit-learn)
-		- Forest importance
+# Load data
+data_loader = DataLoaderManager()
+data = data_loader.load(
+    path='test/data/test_data.sdf',
+    removeHs=False
+)
 
-	- **ML setup:**
-		- Validation algorithm:
-			- Hold-out + CV on train
-			- Nested CV
-			- [Cluster-Nested CV](https://youtu.be/WjoI2ZBrV2k?t=589)
+# Preprocess data (sanitize SMILES)
+smiles_pipe = Pipeline(steps=[
+    ('SMILESChecker', SMILESChecker())
+])
+data['SMILES'] = smiles_pipe.fit_transform(
+    X=data['SMILES'].to_numpy()
+)
 
-	- **ML algorithms:**
-		- Scikit-learn (RF, SVM, Elastic Nets, Gradient boosting, etc.)
-		- Ensembles (XGBoost, LightGBM, stacking, etc.)
-		- PyTorch (LSTM, 1D-CNN, GNN, GANs, etc.)
+# Recalculate mol from curated SMILES
+data['Molecule'] = [Chem.MolFromSmiles(smiles)
+                    for smiles in data['SMILES']]
 
-	- **Evaluation:**
-		- Metrics:
-			- [Cohen's kappa](https://en.wikipedia.org/wiki/Cohen%27s_kappa)
-			- [Standard vs Far AUC](https://youtu.be/m1kTpZ2Ly5g?t=464)
-		- Explainability:
-			- [Applicability domain](https://youtu.be/m1kTpZ2Ly5g?t=982)
-			- [Attribution score](https://youtu.be/m1kTpZ2Ly5g?t=738)
-			- Chemical space visualization
-			- Shapley
-			- ELI5
-			- LIME
+# Calculate descriptors
+desc_pipe = DescriptorPipeline(mol_column='Molecule', steps=[
+    ('Mordred', DescriptorMordred())
+])
+data = desc_pipe.fit_transform(X=data)
 
+# Visualize descriptors
+variables = {
+    'x': 'MW',
+    'y': 'nHetero',
+    'z': 'SLogP',
+    'color': target_var
+}
+fig = px.scatter_3d(
+    data_frame=data,
+    x=variables['x'],
+    y=variables['y'],
+    z=variables['z'],
+    color=variables['color'],
+    template='plotly_white',
+    height=750,
+    width=900,
+    title='Initial EDA'
+)
+fig.show()
+```
 
-## 1. Ideas
+For detailed examples, please see the [examples](https://github.com/guillecg/drug-discovery/tree/master/examples) folder.
 
-- **Active Learning for increasing labelled samples**
+## Roadmap
 
-- **Generative models:**
-	- **Examples:**
-		- [ReLeaSE](https://arxiv.org/abs/1711.10907)
-		- [REINVENT](https://github.com/MarcusOlivecrona/REINVENT)
-	- **GANs**
-	- **RL:**
-		- Actions = add fragment, state = SMILES, reward = activity/similarity
-		- Actions = add letter, state = SMILES, reward = activity/similarity
-
-- **Generative models + labelling with Active Learning**
-
-- **Supervised Learning:**
-	- LSTM with SMILES
-	- GNN with graph representations (maybe SDFs?)
-
-- **Assessment/evaluation:**
-	- Similarity (assumption: it equals to activity)
-	- Direct mapping to activity (using Supervised Learning)
-	-
-- **DeepTox:**
-	- **Machine Learning methods:**
-		- SVMs with various kernels
-		- Random Forests
-		- Elastic Nets
-	- **Features and kernels:**
-		- ECFP
-		- DFS
-		- 3D features based on MOPAC
-		- Quantum-mechanical descriptors
-		- Tanimoto
-		- Minmax
-		- Various 2D, 3D and pharmacophore kernels
-		- In-house toxicophore and scaffold features
+A detailed roadmap with future lines of work can be found [here](https://github.com/guillecg/drug-discovery/projects/1).
