@@ -11,14 +11,18 @@ This repository aims to provide a modular architecture for rapidly build pipelin
 
 ## Setup
 All the dependencies are detailed in the [environment.yml](https://github.com/guillecg/drug-discovery/blob/master/environment.yml) file. To install them, create a new conda environment using that file:
-```
+```bash
 $ conda env create --name dd --file environment.yml
 $ conda activate dd
 ```
 
 ## Getting started
-```
+```python
 import plotly.express as px
+
+from sklearn.pipeline import Pipeline
+
+from rdkit import Chem
 
 from modules.data_loaders import DataLoaderManager
 from modules.preprocessing.smiles import SMILESChecker
@@ -57,7 +61,7 @@ variables = {
     'x': 'MW',
     'y': 'nHetero',
     'z': 'SLogP',
-    'color': target_var
+    'color': 'SR-p53'
 }
 fig = px.scatter_3d(
     data_frame=data,
