@@ -81,4 +81,4 @@ For detailed examples, please see the [examples](https://github.com/guillecg/dru
 
 ## Roadmap
 
-A detailed roadmap with future lines of work can be found [here](https://github.com/guillecg/drug-discovery/projects/1).
+A detailed roadmap with future lines of work can be found [here](https://github.com/guillecg/drug-discovery/projects/1). Ideas and possible future implementations can also be found [here](https://github.com/guillecg/drug-discovery/blob/master/IDEAS.md).
