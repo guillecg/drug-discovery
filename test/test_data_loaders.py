@@ -27,10 +27,10 @@ from modules.data_loaders import (
     ]
 )
 def test_data_loader_manager_filters(
-        data_loader_manager: DataLoaderManager,
-        data_paths_dict: dict,
-        filters: dict,
-        expected_len: int
+    data_loader_manager: DataLoaderManager,
+    data_paths_dict: dict,
+    filters: dict,
+    expected_len: int
 ) -> None:
     """This test fails if the filters in DataLoaderManager.load do not work."""
 
@@ -54,8 +54,8 @@ def test_data_loader_manager_filters(
 
 @pytest.mark.slow
 def test_data_loaders_individually(
-        data_loader_manager: DataLoaderManager,
-        data_paths_dict: dict
+    data_loader_manager: DataLoaderManager,
+    data_paths_dict: dict
 ) -> None:
     """This test fails if there are not exactly 10 records for each data
     format using DataLoaderManager.
@@ -87,10 +87,10 @@ def test_data_loaders_individually(
     ]
 )
 def test_data_loader_kwargs(
-        data_loader_manager: DataLoaderManager,
-        data_paths_dict: dict,
-        cls: BaseDataLoader,
-        kwargs: dict
+    data_loader_manager: DataLoaderManager,
+    data_paths_dict: dict,
+    cls: BaseDataLoader,
+    kwargs: dict
 ) -> None:
     """This test fails if the kwargs are not properly defined."""
 

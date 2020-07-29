@@ -34,9 +34,9 @@ def test_data_loader_kwargs(cls, kwargs: dict) -> None:
     ]
 )
 def test_calculation_individually(
-        data_loader_manager: DataLoaderManager,
-        data_list: List[pd.DataFrame],
-        calculator
+    data_loader_manager: DataLoaderManager,
+    data_list: List[pd.DataFrame],
+    calculator
 ) -> None:
     """This test fails if:
         - Calculated descriptors are not a Pandas.DataFrame
@@ -64,9 +64,9 @@ def test_calculation_individually(
     ]
 )
 def test_calculation_with_pipeline(
-        data_loader_manager: DataLoaderManager,
-        data_list: List[pd.DataFrame],
-        steps: List[tuple]
+    data_loader_manager: DataLoaderManager,
+    data_list: List[pd.DataFrame],
+    steps: List[tuple]
 ) -> None:
     """This test fails if:
         - Calculated descriptors are not a Pandas.DataFrame

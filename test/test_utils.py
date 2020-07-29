@@ -14,8 +14,8 @@ def test_load_yaml(path: str) -> None:
 
 
 def test_get_test_data_paths(
-        data_loader_manager: DataLoaderManager,
-        config_path: str
+    data_loader_manager: DataLoaderManager,
+    config_path: str
 ) -> None:
     """This test fails if:
         - Returned paths are not a list
