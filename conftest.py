@@ -16,14 +16,14 @@ def data_loader_manager() -> DataLoaderManager:
 
 
 @pytest.fixture(scope='session')
-def config_path() -> str:
-    return 'test/config.yml'
+def config() -> dict:
+    return load_yaml(path='test/config.yml')
 
 
 @pytest.fixture(scope='session')
 def data_paths_dict(
         data_loader_manager: DataLoaderManager,
-        config_path: str
+        config: dict
 ) -> dict:
     """Fixture containing all the test data file paths for their corresponding
     formats.
@@ -33,7 +33,6 @@ def data_paths_dict(
     # the 10 first records in 'data/Tox21/tox21_10k_data_all.sdf'
 
     # Get test data directory from test config
-    config = load_yaml(path=config_path)
     test_data_dir = config.get('TEST_DATA_DIR')
 
     paths_dict = defaultdict(list)

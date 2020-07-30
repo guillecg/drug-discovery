@@ -15,7 +15,7 @@ def test_load_yaml(path: str) -> None:
 
 def test_get_test_data_paths(
     data_loader_manager: DataLoaderManager,
-    config_path: str
+    config: dict
 ) -> None:
     """This test fails if:
         - Returned paths are not a list
@@ -24,7 +24,6 @@ def test_get_test_data_paths(
     """
 
     # Get test data directory from test config
-    config = load_yaml(path=config_path)
     test_data_dir = config.get('TEST_DATA_DIR')
 
     for data_type in data_loader_manager.data_loaders.keys():
