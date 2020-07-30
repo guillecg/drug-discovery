@@ -23,7 +23,7 @@ from modules.preprocessing.descriptors import (
     ]
 )
 def test_data_loader_kwargs(cls, kwargs: dict) -> None:
-    """This test fails if the kwargs are not properly defined."""
+    """This tests fails if the kwargs are not properly defined."""
     assert cls(**kwargs)
 
 
@@ -38,7 +38,7 @@ def test_calculation_individually(
     data_list: List[pd.DataFrame],
     calculator
 ) -> None:
-    """This test fails if:
+    """This tests fails if:
         - Calculated descriptors are not a Pandas.DataFrame
         - Calculated descriptors length does not match data length
     """
@@ -68,9 +68,9 @@ def test_calculation_with_pipeline(
     data_list: List[pd.DataFrame],
     steps: List[tuple]
 ) -> None:
-    """This test fails if:
+    """This tests fails if:
         - Calculated descriptors are not a Pandas.DataFrame
-        - Calculated descriptors length does not match 10 (data test length)
+        - Calculated descriptors length does not match 10 (data tests length)
         - Number of resulting columns is NOT higher than in original data
     """
 

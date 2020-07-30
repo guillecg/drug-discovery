@@ -29,7 +29,7 @@ class DataLoaderManager(BaseDataLoader):
     --------
     >>> from modules.data_loaders import DataLoaderManager
     >>> data_loader = DataLoaderManager()
-    >>> data = data_loader.load(path='test/data/test_data.sdf')
+    >>> data = data_loader.load(path='tests/data/test_data.sdf')
     >>> data[['ID', 'SMILES']]
                     ID                                             SMILES
     0  NCGC00178831-03  C[n+]1c2cc(N)ccc2cc2ccc(N)cc21.Nc1ccc2cc3ccc(N...
@@ -43,14 +43,14 @@ class DataLoaderManager(BaseDataLoader):
     8  NCGC00181091-01         CCCCCCOc1ccc(C(=N)N(CCCC)CCCC)c2ccccc12.Cl
     9  NCGC00094089-01  COCC(=O)O[C@]1(CCN(C)CCCc2nc3ccccc3[nH]2)CCc2c...
     >>> data = data_loader.load(
-    ...     path='test/data/test_data.sdf',
+    ...     path='tests/data/test_data.sdf',
     ...     filters={'SMILES': 'CCN(CC)C(=S)SSC(=S)N(CC)CC'}
     ... )
     >>> data['SMILES']
     7    CCN(CC)C(=S)SSC(=S)N(CC)CC
     Name: SMILES, dtype: object
     >>> data = data_loader.load(
-    ...     path='test/data/test_data.sdf',
+    ...     path='tests/data/test_data.sdf',
     ...     filters={'SMILES': [
     ...         'CCN(CC)C(=S)SSC(=S)N(CC)CC',
     ...         'CCCCCCCCNC(C)C(O)c1ccc(SC(C)C)cc1'

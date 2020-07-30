@@ -34,7 +34,7 @@ from modules.preprocessing.descriptors import (
 # Load data
 data_loader = DataLoaderManager()
 data = data_loader.load(
-    path='test/data/test_data.sdf',
+    path='tests/data/test_data.sdf',
     removeHs=False
 )
 

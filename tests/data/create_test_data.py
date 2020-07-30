@@ -5,14 +5,14 @@ from modules.data_loaders import DataLoaderManager
 
 
 def create_test_data(path: str, n_rows: int = 10) -> None:
-    """Create test data files for all `DataLoaderManager` supported formats
+    """Create tests data files for all `DataLoaderManager` supported formats
     from a given data file. The resulting files only contain the first `n_rows`
     to avoid overhead in tests.
 
     Parameters
     ----------
     path : str
-        Path to the source file from which all test data files will be
+        Path to the source file from which all tests data files will be
         generated.
 
     n_rows : int, default=10
@@ -26,7 +26,7 @@ def create_test_data(path: str, n_rows: int = 10) -> None:
     data = data[:n_rows]
 
     # CSV
-    path = 'test/data/test_data.csv'
+    path = 'tests/data/test_data.csv'
     data.to_csv(
         path,
         header=True,
@@ -35,7 +35,7 @@ def create_test_data(path: str, n_rows: int = 10) -> None:
     assert len(data_loader.load(path=path)) == n_rows
 
     # Excel (.xls)
-    path = 'test/data/test_data.xls'
+    path = 'tests/data/test_data.xls'
     data.to_excel(
         path,
         header=True,
@@ -44,7 +44,7 @@ def create_test_data(path: str, n_rows: int = 10) -> None:
     assert len(data_loader.load(path=path)) == n_rows
 
     # Excel (.xlsx)
-    path = 'test/data/test_data.xlsx'
+    path = 'tests/data/test_data.xlsx'
     data.to_excel(
         path,
         header=True,
@@ -53,7 +53,7 @@ def create_test_data(path: str, n_rows: int = 10) -> None:
     assert len(data_loader.load(path=path)) == n_rows
 
     # SMILES
-    path = 'test/data/test_data.smi'
+    path = 'tests/data/test_data.smi'
     w = Chem.SmilesWriter(path)
     for smi in data['Molecule']:
         w.write(smi)
@@ -61,7 +61,7 @@ def create_test_data(path: str, n_rows: int = 10) -> None:
     assert len(data_loader.load(path=path)) == n_rows
 
     # SDF
-    path = 'test/data/test_data.sdf'
+    path = 'tests/data/test_data.sdf'
     PandasTools.WriteSDF(
         data,
         path,

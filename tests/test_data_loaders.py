@@ -32,7 +32,7 @@ def test_data_loader_manager_filters(
     filters: dict,
     expected_len: int
 ) -> None:
-    """This test fails if the filters in DataLoaderManager.load do not work."""
+    """This tests fails if the filters in DataLoaderManager.load do not work."""
 
     # For each supported data format in DataLoaderManager
     for data_format, data_loader in data_loader_manager.data_loaders.items():
@@ -57,7 +57,7 @@ def test_data_loaders_individually(
     data_loader_manager: DataLoaderManager,
     data_paths_dict: dict
 ) -> None:
-    """This test fails if there are not exactly 10 records for each data
+    """This tests fails if there are not exactly 10 records for each data
     format using DataLoaderManager.
     """
 
@@ -81,7 +81,7 @@ def test_data_loaders_individually(
         pytest.param(DataLoaderCSV, {'NaN': True}, marks=pytest.mark.xfail),
         pytest.param(DataLoaderSDF, {'NaN': True}, marks=pytest.mark.xfail),
         pytest.param(DataLoaderSMILES, {'NaN': True}, marks=pytest.mark.xfail)
-        # NOTE: pd.read_excel accepts kwargs, so it is worthless to test an
+        # NOTE: pd.read_excel accepts kwargs, so it is worthless to tests an
         # invalid argument, since it is always going to pass
         # pytest.param(DataLoaderExcel, {'NaN': True}, marks=pytest.mark.xfail)
     ]
@@ -92,7 +92,7 @@ def test_data_loader_kwargs(
     cls: BaseDataLoader,
     kwargs: dict
 ) -> None:
-    """This test fails if the kwargs are not properly defined."""
+    """This tests fails if the kwargs are not properly defined."""
 
     # For each supported data format in DataLoaderManager
     for data_format, data_loader in data_loader_manager.data_loaders.items():

@@ -49,7 +49,7 @@ class DescriptorPipeline(BaseEstimator, TransformerMixin):
     ...     DescriptorMordred
     ... )
     >>> data_loader = DataLoaderManager()
-    >>> data = data_loader.load(path='test/data/test_data.sdf')
+    >>> data = data_loader.load(path='tests/data/test_data.sdf')
     >>> data[['ID', 'SMILES']]
                     ID                                             SMILES
     0  NCGC00178831-03  C[n+]1c2cc(N)ccc2cc2ccc(N)cc21.Nc1ccc2cc3ccc(N...
@@ -201,7 +201,7 @@ class DescriptorMordred(BaseEstimator, TransformerMixin):
     ...     DescriptorMordred
     ... )
     >>> data_loader = DataLoaderManager()
-    >>> data = data_loader.load(path='test/data/test_data.sdf')
+    >>> data = data_loader.load(path='tests/data/test_data.sdf')
     >>> data[['ID', 'SMILES']]
                     ID                                             SMILES
     0  NCGC00178831-03  C[n+]1c2cc(N)ccc2cc2ccc(N)cc21.Nc1ccc2cc3ccc(N...

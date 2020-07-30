@@ -20,7 +20,7 @@ def test_smiles_checker(
         smiles_checker: SMILESChecker,
         data_list: List[pd.DataFrame]
 ) -> None:
-    """This test fails if:
+    """This tests fails if:
         - Returned SMILES are not a NumPy.ndarray
         - Any element of the array is not a string
         - Length of curated SMILES is not the same as original
@@ -38,7 +38,7 @@ def test_smiles_checker(
 
 @pytest.mark.slow
 def test_smiles_checker_with_pipeline(data_list: List[pd.DataFrame]) -> None:
-    """This test fails if:
+    """This tests fails if:
         - Returned SMILES are not a NumPy.ndarray
         - Any element of the array is not a string
         - Length of curated SMILES is not the same as original

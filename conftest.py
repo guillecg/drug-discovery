@@ -17,7 +17,7 @@ def data_loader_manager() -> DataLoaderManager:
 
 @pytest.fixture(scope='session')
 def config() -> dict:
-    return load_yaml(path='test/config.yml')
+    return load_yaml(path='tests/config.yml')
 
 
 @pytest.fixture(scope='session')
