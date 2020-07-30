@@ -2,7 +2,7 @@
 
 # Machine Learning for Drug Discovery
 
-This repository aims to provide a modular architecture for rapidly build pipelines that allow the user to discover or repurpose drugs.
+This repository aims to provide a modular architecture to rapidly build pipelines that allow the user to discover or repurpose drugs.
 
 ## Table of contents
 * [Setup](#setup)

@@ -80,7 +80,7 @@ class DataLoaderManager(BaseDataLoader):
         path : str
             The path pointing to the data file.
 
-        filters : dict, optional
+        filters : dict, default=None
             The filters to apply to the data, specifying the key as the column
             and the desired value as a single element or iterable. It is
             important to highlight that these filters are applied according to
