@@ -1,0 +1,10 @@
+--- # Hyperparameters for grid searching different scikit-learn classifiers
+ProblemType: 'Classification'
+CV: 5
+ParallelJobs: -1
+Scoring: 'f1_micro' # Must be in sorted(sklearn.metrics.SCORERS.keys())
+Hyperparameters:
+  RandomForestClassifier:
+    n_estimators: [15]
+    criterion: ['entropy']
+    max_features: ['sqrt']

@@ -6,8 +6,16 @@ from typing import List
 
 import pandas as pd
 
+from sklearn.datasets import load_iris, load_boston
+from sklearn.model_selection import train_test_split
+
 from modules.data_loaders import DataLoaderManager
 from modules.utils import load_yaml, get_test_data_paths
+
+
+@pytest.fixture(scope='session')
+def seed():
+    return 42
 
 
 @pytest.fixture(scope='session')
@@ -68,3 +76,28 @@ def data_list(
             data_list.append(data)
 
     return data_list
+
+
+@pytest.fixture(scope='session')
+def data_classification(seed: int, test_size: float = 0.33):
+    X, y = load_iris(return_X_y=True)
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y,
+        test_size=test_size,
+        random_state=seed,
+        stratify=y
+    )
+
+    return X_train, X_test, y_train, y_test
+
+
+@pytest.fixture(scope='session')
+def data_regression(seed: int, test_size: float = 0.33):
+    X, y = load_boston(return_X_y=True)
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y,
+        test_size=test_size,
+        random_state=seed
+    )
+
+    return X_train, X_test, y_train, y_test

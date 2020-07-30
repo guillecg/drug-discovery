@@ -1,0 +1,15 @@
+--- # Hyperparameters for grid searching different scikit-learn regressors
+ProblemType: 'Regression'
+CV: 5
+ParallelJobs: -1
+Scoring: 'r2' # Must be in sorted(sklearn.metrics.SCORERS.keys())
+Hyperparameters:
+  SVR:
+    kernel: ['rbf']
+    gamma: ['scale']
+    C: [0.01, 0.1]
+    max_iter: [100]
+  RandomForestRegressor:
+    n_estimators: [250, 500]
+    criterion: ['mse', 'mae']
+    max_features: ['sqrt']

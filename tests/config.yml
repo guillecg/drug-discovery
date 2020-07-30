@@ -1,2 +1,3 @@
 --- # Configuration for running tests
 TEST_DATA_DIR: 'tests/data/'
+MODEL_SELECTOR_CONFIG_DIR: 'tests/model_selector_config'
